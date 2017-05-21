@@ -52,8 +52,8 @@ public class Mainwindow extends JFrame {
 	 * Create the frame.
 	 */
 	public Mainwindow() {
-		username = LoginDialog.username;
-		password = LoginDialog.password;
+		username = LoginDialog.USERNAME;
+		password = LoginDialog.PASSWORD;
 		setResizable(false);
 		setTitle("长江大学门诊住院费用管理系统");
 		setIconImage(new ImageIcon("img/yz.jpg").getImage());
