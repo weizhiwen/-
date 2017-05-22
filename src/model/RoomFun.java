@@ -19,6 +19,25 @@ public class RoomFun {
 		return number;
 	}
 	
+	//查询房间的部分信息
+	//查询医保类型函数
+	public String[] selectRoomBed() throws SQLException {
+		Connection connection = DBConnection.getConnection("yzmedical");
+		String sql = "SELECT bedno FROM yz_roombed";
+		PreparedStatement preparedStatement = connection.prepareStatement(sql);
+		ResultSet resultSet = preparedStatement.executeQuery();
+		//从数据库中获取医保类型的数目，而不是直接把数量值写死，方便以后添加删除医保类型
+		int count = getRoomTypeCount();
+		String result[] = new String[count];
+		int i = 0;
+		while(resultSet.next()){
+			String string = resultSet.getString("bedno");
+			//把结果填充到数组中
+			//Arrays.fill(result, string);此种方法是填充整个数组，而不是我想要的逐个填充数组数据
+			result[i++] = string;
+		}
+		return result;
+	}
 	//查询房间的全部信息
 	public String[][] query(int count) throws SQLException {
 		RoomFun roomFun = new RoomFun();

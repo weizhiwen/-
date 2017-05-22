@@ -12,6 +12,7 @@ import javax.swing.border.TitledBorder;
 
 import control.PatientAction;
 import model.PatientFun;
+import model.RoomFun;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -41,6 +42,7 @@ public class PatientInfoDlog extends JFrame {
 	private JComboBox comboBoxInHospitalTime;
 	private JComboBox comboBoxOutHospitalTime;
 	
+	private RoomFun roomFun = new RoomFun();
 	private PatientFun patientFun = new PatientFun();
 
 	/**
@@ -111,13 +113,19 @@ public class PatientInfoDlog extends JFrame {
 		panel.add(textFieldPatientNumber);
 		
 		JLabel lblNewLabel_1 = new JLabel("病床区号");
-		//可以改进 病床区号先从数据库中查询出来
 		lblNewLabel_1.setFont(new Font("微软雅黑", Font.BOLD, 18));
 		lblNewLabel_1.setBounds(106, 102, 85, 18);
 		panel.add(lblNewLabel_1);
 		
 		comboBoxBedNumber = new JComboBox();
 		comboBoxBedNumber.setEditable(true);
+		String bedNumber[];
+		try {
+			bedNumber = roomFun.selectRoomBed();
+			comboBoxBedNumber.setModel(new DefaultComboBoxModel<String>(bedNumber));
+		} catch (SQLException e2) {
+			e2.printStackTrace();
+		}
 		comboBoxBedNumber.setFont(new Font("宋体", Font.BOLD, 15));
 		comboBoxBedNumber.setBackground(Color.WHITE);
 		comboBoxBedNumber.setBounds(217, 101, 114, 24);
@@ -131,10 +139,9 @@ public class PatientInfoDlog extends JFrame {
 		comboBoxMedicalType = new JComboBox();
 		comboBoxMedicalType.setEditable(true);
 		//从数据库中遍历医保类型，减少用户的直接输入
-		
 		try {
-			String string[] = patientFun.selectMedicalType();
-			comboBoxMedicalType.setModel(new DefaultComboBoxModel<String>(string));
+			String medicaltypes[] = patientFun.selectMedicalType();
+			comboBoxMedicalType.setModel(new DefaultComboBoxModel<String>(medicaltypes));
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
