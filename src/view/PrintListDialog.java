@@ -88,7 +88,7 @@ public class PrintListDialog extends JFrame {
 	public PrintListDialog() {
 		setTitle("发票打印");
 		setIconImage(new ImageIcon("img/yz.jpg").getImage());
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		int screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
 		int screenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
 		int widthMargin = (screenWidth - 680)/2;
@@ -264,7 +264,7 @@ public class PrintListDialog extends JFrame {
 		
 		textFieldBillName = new JTextField();
 		textFieldBillName.setFont(new Font("微软雅黑", Font.BOLD, 16));
-		textFieldBillName.setText(Mainwindow.username);
+		textFieldBillName.setText(Mainwindow.USERNAME);
 		textFieldBillName.setEditable(false);
 		textFieldBillName.setBounds(280, 87, 86, 24);
 		panel_4.add(textFieldBillName);

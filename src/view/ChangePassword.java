@@ -102,7 +102,7 @@ public class ChangePassword extends JFrame {
 		lblNewLabel4.setBounds(90, 118, 106, 18);
 		panel.add(lblNewLabel4);
 		
-		textFieldUsername = new JTextField(Mainwindow.username);
+		textFieldUsername = new JTextField(Mainwindow.USERNAME);
 		textFieldUsername.setEditable(false);
 		textFieldUsername.setBounds(210, 54, 111, 24);
 		panel.add(textFieldUsername);
@@ -124,7 +124,7 @@ public class ChangePassword extends JFrame {
 		confirm.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String username = Mainwindow.username;
+				String username = Mainwindow.USERNAME;
 				String oldpassword = new String(passwordFieldOld.getPassword());
 				String newpassword1 = new String(passwordFieldNew1.getPassword());
 				String newpassword2 = new String(passwordFieldNew2.getPassword());

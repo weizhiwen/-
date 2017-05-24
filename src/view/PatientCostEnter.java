@@ -85,6 +85,10 @@ public class PatientCostEnter extends JFrame {
 	private Object patient[][] = null;
 	private String patientName = null;
 	
+	private int amount = 0;
+	private float preprice = 0;
+	private String cost = null;
+	
 	
 	//设置列名
 	String title1[] =  {"序号", "病人姓名", "住院号", "病床区号", "医保类型", "住院时间", "出院时间"};
@@ -115,7 +119,9 @@ public class PatientCostEnter extends JFrame {
 			public void windowClosing(WindowEvent arg0) {
 				int flag = JOptionPane.showConfirmDialog(contentPane, "确认退出吗？", "警告", JOptionPane.YES_NO_OPTION);
 				if(flag == JOptionPane.YES_OPTION)
-					System.exit(0);
+					dispose();
+				else
+					setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 			}
 		});
 		setResizable(false);
@@ -364,6 +370,31 @@ public class PatientCostEnter extends JFrame {
 		panel_2.add(scrollPane_3);
 		
 		tableMedicineNumber = new JTable();
+		tableMedicineNumber.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				int row = tableMedicineNumber.getSelectedRow();
+				int col = tableMedicineNumber.getSelectedColumn();
+				cost = String.valueOf(preprice * amount);
+				tableMedicineNumber.setValueAt(cost, row, col+3);
+				System.out.println(cost);
+				tableMedicineNumber.updateUI();
+			}
+		});
+		tableMedicineNumber.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				int row = tableMedicineNumber.getSelectedRow();
+				int col = tableMedicineNumber.getSelectedColumn();
+				amount = Integer.valueOf((String) tableMedicineNumber.getValueAt(row, col));//得到数量值
+				//System.out.println(amount);
+				preprice = Float.valueOf((String) tableMedicineNumber.getValueAt(row, col+2));//得到单价值
+				//System.out.println(preprice);
+				//String cost = String.valueOf(preprice * amount);
+				//System.out.println(cost);
+				//tableMedicineNumber.setValueAt(cost, row, col+3);
+			}
+		});
 		//数量录入栏中，数量变化时，该行总费用也随之改变，未实现
 //		tableMedicineNumber.getModel().addTableModelListener(new TableModelEvent() {
 //				public void tableChanged(TableModelEvent e){

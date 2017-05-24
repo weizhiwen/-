@@ -32,8 +32,8 @@ public class Mainwindow extends JFrame {
 	private JLabel label;
 	
 	//定义静态常量，方便其他窗体使用
-	public static String username = null;
-	public static String password = null;
+	public static String USERNAME = null;
+	public static String PASSWORD = null;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -52,8 +52,8 @@ public class Mainwindow extends JFrame {
 	 * Create the frame.
 	 */
 	public Mainwindow() {
-		username = LoginDialog.USERNAME;
-		password = LoginDialog.PASSWORD;
+		USERNAME = LoginDialog.USERNAME;
+		PASSWORD = LoginDialog.PASSWORD;
 		setResizable(false);
 		setTitle("长江大学门诊住院费用管理系统");
 		setIconImage(new ImageIcon("img/yz.jpg").getImage());
@@ -191,6 +191,12 @@ public class Mainwindow extends JFrame {
 		menu4_2.add(menu4_2_1);
 		
 		JMenuItem menuItem4_2_1_1 = new JMenuItem("维护房间类型");
+		menuItem4_2_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				DDRoomType ddRoomType = new DDRoomType();
+				ddRoomType.setVisible(true);
+			}
+		});
 		menu4_2_1.add(menuItem4_2_1_1);
 		
 		JMenuItem menuItem4_2_1_2 = new JMenuItem("批量导入房间类型");

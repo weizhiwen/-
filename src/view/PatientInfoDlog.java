@@ -68,11 +68,13 @@ public class PatientInfoDlog extends JFrame {
 		setTitle("病人信息录入");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setIconImage(new ImageIcon("img/yz.jpg").getImage());
-		int screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
-		int screenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
-		int widthMargin = (screenWidth - 510)/2;
-		int heightMargin = (screenHeight - 400)/2;
-		setBounds(widthMargin, heightMargin, 500, 380);
+//		int screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
+//		int screenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
+//		int widthMargin = (screenWidth - 510)/2;
+//		int heightMargin = (screenHeight - 400)/2;
+		//窗体居中的另一种简单方法
+		setBounds(0, 0, 500, 380);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

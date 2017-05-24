@@ -75,7 +75,7 @@ public class PatientList extends JFrame {
 	public PatientList() {
 		setTitle("病人信息维护");
 		setIconImage(new ImageIcon("img/yz.jpg").getImage());
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		int screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
 		int screenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
 		int widthMargin = (screenWidth - 1100)/2;

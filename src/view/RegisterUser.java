@@ -56,7 +56,7 @@ public class RegisterUser extends JFrame {
 	 */
 	public RegisterUser() {
 		setTitle("注册新用户");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setIconImage(new ImageIcon("img/yz.jpg").getImage());
 		int screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
 		int screenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
