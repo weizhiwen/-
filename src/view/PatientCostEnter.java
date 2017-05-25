@@ -7,8 +7,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.TableModelEvent;
-
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -28,8 +26,6 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
-import javax.swing.table.TableModel;
-
 import control.CostAction;
 import control.MedicineAction;
 import control.PatientAction;
@@ -45,13 +41,8 @@ import java.awt.event.FocusEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.ListSelectionModel;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.beans.VetoableChangeListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 public class PatientCostEnter extends JFrame {
 
@@ -85,6 +76,7 @@ public class PatientCostEnter extends JFrame {
 	private Object patient[][] = null;
 	private String patientName = null;
 	
+	private DefaultTableModel tableModel;
 	private int amount = 0;
 	private float preprice = 0;
 	private String cost = null;
@@ -344,6 +336,7 @@ public class PatientCostEnter extends JFrame {
 		textFieldMedicineSerach.setColumns(10);
 		
 		scrollPane_2 = new JScrollPane();
+		scrollPane_2.setToolTipText("双击Enter键改变数量值");
 		scrollPane_2.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane_2.setBackground(Color.WHITE);
 		scrollPane_2.setBounds(14, 77, 460, 525);
@@ -370,33 +363,49 @@ public class PatientCostEnter extends JFrame {
 		panel_2.add(scrollPane_3);
 		
 		tableMedicineNumber = new JTable();
+		tableMedicineNumber.setToolTipText("双击Enter键改变数量值");
 		tableMedicineNumber.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
 				int row = tableMedicineNumber.getSelectedRow();
 				int col = tableMedicineNumber.getSelectedColumn();
+				amount = Integer.valueOf((String) tableMedicineNumber.getValueAt(row, col));
+				preprice = Float.valueOf((String) tableMedicineNumber.getValueAt(row, col+2));
 				cost = String.valueOf(preprice * amount);
-				tableMedicineNumber.setValueAt(cost, row, col+3);
-				System.out.println(cost);
-				tableMedicineNumber.updateUI();
+				if(arg0.getKeyCode() == KeyEvent.VK_ENTER){
+//					JOptionPane.showMessageDialog(null, "enter 键按下!");
+					tableMedicineNumber.setValueAt(cost, row, col+3);
+//					System.out.println(cost);
+					tableModel.fireTableCellUpdated(row, col+3);
+					tableModel.fireTableDataChanged();	
+				}
 			}
 		});
-		tableMedicineNumber.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent arg0) {
-				int row = tableMedicineNumber.getSelectedRow();
-				int col = tableMedicineNumber.getSelectedColumn();
-				amount = Integer.valueOf((String) tableMedicineNumber.getValueAt(row, col));//得到数量值
-				//System.out.println(amount);
-				preprice = Float.valueOf((String) tableMedicineNumber.getValueAt(row, col+2));//得到单价值
-				//System.out.println(preprice);
-				//String cost = String.valueOf(preprice * amount);
-				//System.out.println(cost);
-				//tableMedicineNumber.setValueAt(cost, row, col+3);
-			}
-		});
+//		tableMedicineNumber.addMouseListener(new MouseAdapter() {
+//			@Override
+//			public void mousePressed(MouseEvent arg0) {
+//				int row = tableMedicineNumber.getSelectedRow();
+//				int col = tableMedicineNumber.getSelectedColumn();
+//				amount = Integer.valueOf((String) tableMedicineNumber.getValueAt(row, col));//得到数量值
+//				//System.out.println(amount);
+//				preprice = Float.valueOf((String) tableMedicineNumber.getValueAt(row, col+2));//得到单价值
+//				//System.out.println(preprice);
+//				//String cost = String.valueOf(preprice * amount);
+//				//System.out.println(cost);
+//				//tableMedicineNumber.setValueAt(cost, row, col+3);
+//			}
+//		});
+//		tableModel.addTableModelListener(e->{
+//			int row = tableMedicineNumber.getSelectedRow();
+//			int col = tableMedicineNumber.getSelectedColumn();
+//			amount = Integer.valueOf((String) tableMedicineNumber.getValueAt(row, col));
+//			preprice = Float.valueOf((String) tableMedicineNumber.getValueAt(row, col+2));
+//			cost = String.valueOf(preprice * amount);
+//			tableMedicineNumber.setValueAt(cost, row, col+3);
+//			tableModel.fireTableDataChanged();
+//		});
 		//数量录入栏中，数量变化时，该行总费用也随之改变，未实现
-//		tableMedicineNumber.getModel().addTableModelListener(new TableModelEvent() {
+//		tableModel.addTableModelListener(new TableModelEvent() {
 //				public void tableChanged(TableModelEvent e){
 //					int row = e.getFirstRow();
 //					int col = e.getColumn();
@@ -416,7 +425,7 @@ public class PatientCostEnter extends JFrame {
 		tableMedicineNumber.setRowHeight(22);
 		tableMedicineNumber.setFont(new Font("微软雅黑", Font.PLAIN, 15));
 		tableMedicineNumber.getTableHeader().setReorderingAllowed(false);//设置列与列之间不能交换位置
-		DefaultTableModel tableModel = new DefaultTableModel(
+		tableModel = new DefaultTableModel(
 				new Object[][] {},
 				new String[] {
 					"项目名称", "费用类别", "类型", "数量", "单位", "单价", "费用"

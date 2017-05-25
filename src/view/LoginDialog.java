@@ -29,6 +29,8 @@ import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class LoginDialog extends JFrame {
 
@@ -111,6 +113,37 @@ public class LoginDialog extends JFrame {
 		panel.add(label_2);
 		
 		passwordField = new JPasswordField();
+		passwordField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if(arg0.getKeyCode() == KeyEvent.VK_ENTER){
+					//获取界面上的输入信息
+					USERNAME = textFieldUserName.getText();
+					PASSWORD = new String(passwordField.getPassword());
+					//判断用户是否已经填写完整信息
+					if(USERNAME.length() <= 0 || PASSWORD.length() <= 0){
+						JOptionPane.showMessageDialog(null, "用户名和密码填写不完整");
+					}else{
+						LoginCheck loginCheck = new LoginCheck();
+						try {
+							if(loginCheck.isLoginSuccess(USERNAME, PASSWORD)){
+								JOptionPane.showMessageDialog(null, "登录成功");
+								Mainwindow mainwindow = new Mainwindow();
+								mainwindow.setVisible(true);
+								dispose();
+							}
+							else {
+								JOptionPane.showMessageDialog(null, "登录失败");
+							}
+						} catch (HeadlessException e1) {
+							e1.printStackTrace();
+						} catch (SQLException e1) {
+							e1.printStackTrace();
+						}	
+					}
+				}
+			}
+		});
 		passwordField.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
